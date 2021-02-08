@@ -1,0 +1,7 @@
+sqlite/
+create_db
+finance
+finance_debug
+*.db
+*.o
+*.csv
