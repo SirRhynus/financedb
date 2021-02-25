@@ -103,7 +103,7 @@ static int export_to_csv_callback(void* of_void,  int argc, char **argv, char **
 int export_to_csv(char* filename) {
 #ifdef EXTERN_SQLITE
   char* system_call;
-  asprintf(&system_call, "sqlite3 -header -csv %s \"SELECT * FROM finance;\" > %s", FINANCE_DATABASE, filename);
+  asprintf(&system_call, "sqlite3 -header -csv %s \"SELECT id, date, round(amount, 2) amount, description FROM finance;\" > %s", FINANCE_DATABASE, filename);
   FILE* fp = popen(system_call, "r");
   if (fp == NULL) {
     perror("Error executing sqlite3 command");
@@ -115,7 +115,7 @@ int export_to_csv(char* filename) {
   FILE *of = fopen(filename, "w");
   // Could maybe do with query, but the database will stay the same, so no need for extra work
   fprintf(of, "id,date,amount,description\n");
-  rc = execute_query("SELECT * FROM finance;", export_to_csv_callback, of);
+  rc = execute_query("SELECT id, date, round(amount, 2) amount, description FROM finance;", export_to_csv_callback, of);
   fclose(of);
   return rc;
 
